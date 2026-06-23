@@ -1,0 +1,9 @@
+# Ignorar entornos virtuales y cachés
+env/
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar archivos de compilación de Qt
+*.qrc
+*.rcc
