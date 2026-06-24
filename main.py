@@ -27,13 +27,13 @@ class MainWindow(QMainWindow):
         ## ==> END ##
 
         ## SET ==> WINDOW TITLE
-        self.setWindowTitle('Main Window - Python Base')
-        UIFunctions.labelTitle(self, 'Main Window - Python Base')
+        self.setWindowTitle('NetfloxPyDesk')
+        UIFunctions.labelTitle(self, 'NetfloxPyDesk')
         UIFunctions.labelDescription(self, 'Mi Programa')
         ## ==> END ##
 
         ## WINDOW SIZE ==> DEFAULT SIZE
-        startSize = QSize(1000, 720)
+        startSize = QSize(1024, 720)
         self.resize(startSize)
         self.setMinimumSize(startSize)
         # UIFunctions.enableMaximumSize(self, 500, 720)
@@ -51,6 +51,11 @@ class MainWindow(QMainWindow):
         UIFunctions.addNewMenu(self, "HOME", "btn_home", "url(:/20x20/icons/20x20/cil-home.png)", True)
         UIFunctions.addNewMenu(self, "Add User", "btn_new_user", "url(:/16x16/icons/16x16/cil-user-follow.png)", True)
         UIFunctions.addNewMenu(self, "Custom Widgets", "btn_widgets", "url(:/16x16/icons/16x16/cil-equalizer.png)", False)
+        UIFunctions.addNewMenu(self, "Movies", "btn_movies", "url(:/16x16/icons/16x16/cil-movie.png)", False)
+        
+        # --- LÍNEA NUEVA: CREA UNA PÁGINA COMPLETAMENTE EN BLANCO ---
+        self.ui.page_movies = QWidget()
+        self.ui.stackedWidget.addWidget(self.ui.page_movies)
         ## ==> END ##
 
         # START MENU => SELECTION
@@ -109,6 +114,11 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         ## ==> END ##
 
+        # --- LÍNEAS NUEVAS CORREGIDAS PARA LIMPIAR LA PÁGINA DE MOVIES ---
+        self.ui.tableWidget.hide()    # Oculta la tabla vacía del fondo (Este sí existe)  
+        self.ui.frame_3.hide()        # Oculta la caja de instalación de Blender
+        self.ui.tableWidget.hide()    # Oculta la tabla vacía del fondo
+
 
 
         ########################################################################
@@ -151,6 +161,15 @@ class MainWindow(QMainWindow):
             UIFunctions.labelPage(self, "Custom Widgets")
             btnWidget.setStyleSheet(UIFunctions.selectMenu(btnWidget.styleSheet()))
 
+        # PAGE MOVIES
+        # PAGE MOVIES
+        if btnWidget.objectName() == "btn_movies":
+        
+            self.ui.stackedWidget.setCurrentWidget(self.ui.page_movies) 
+            
+            UIFunctions.resetStyle(self, "btn_movies")
+            UIFunctions.labelPage(self, "Movies")
+            btnWidget.setStyleSheet(UIFunctions.selectMenu(btnWidget.styleSheet()))
     ## ==> END ##
 
     ########################################################################
