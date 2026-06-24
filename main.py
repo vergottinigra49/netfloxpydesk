@@ -56,18 +56,15 @@ class MainWindow(QMainWindow):
         UIFunctions.addNewMenu(self, "Custom Widgets", "btn_widgets", "url(:/16x16/icons/16x16/cil-equalizer.png)", False)
         UIFunctions.addNewMenu(self, "Movies", "btn_movies", "url(:/16x16/icons/16x16/cil-movie.png)", False)
         
-        # --- REEMPLAZA ESTE BLOQUE EN TU MAIN.PY ---
-        # 1. Creamos la página contenedora
+        # --- CONFIGURACIÓN DE LA PÁGINA DE MOVIES (SPRINT 3 - TABLA CON POSTGRES) ---
         self.ui.page_movies = QWidget()
         self.ui.stackedWidget.addWidget(self.ui.page_movies)
         
-        # 2. Creamos una tabla visual para las películas
         self.tabla_visual_movies = QTableWidget()
         self.tabla_visual_movies.setColumnCount(4)
         self.tabla_visual_movies.setHorizontalHeaderLabels(["ID", "Título", "Género", "Año"])
         self.tabla_visual_movies.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         
-        # 3. La metemos en un diseño para que ocupe todo el espacio oscuro
         layout_movies = QVBoxLayout()
         layout_movies.addWidget(self.tabla_visual_movies)
         self.ui.page_movies.setLayout(layout_movies)
@@ -174,28 +171,22 @@ class MainWindow(QMainWindow):
 
         
         # PAGE MOVIES
-        # PAGE MOVIES
         if btnWidget.objectName() == "btn_movies":
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_movies) 
-            
             UIFunctions.resetStyle(self, "btn_movies")
             UIFunctions.labelPage(self, "Movies")
             btnWidget.setStyleSheet(UIFunctions.selectMenu(btnWidget.styleSheet()))
             
-            # Traemos los datos frescos desde Postgres
+            # Traemos los datos de Postgres y llenamos la tabla
             peliculas_db = database.listar_peliculas()
-            print(f"\n[UI] Hiciste clic en Movies. Cargadas {len(peliculas_db)} películas desde Postgres!")
-            
-            # --- NUEVO: DIBUJAR LAS PELÍCULAS EN LA TABLA ---
-            self.tabla_visual_movies.setRowCount(0) # Limpiamos filas viejas
+            self.tabla_visual_movies.setRowCount(0) 
             
             for numero_fila, datos_pelicula in enumerate(peliculas_db):
                 self.tabla_visual_movies.insertRow(numero_fila)
                 for numero_columna, dato in enumerate(datos_pelicula):
                     celda = QTableWidgetItem(str(dato))
-                    celda.setTextAlignment(Qt.AlignmentFlag.AlignCenter) # Centramos el texto
+                    celda.setTextAlignment(Qt.AlignmentFlag.AlignCenter) 
                     self.tabla_visual_movies.setItem(numero_fila, numero_columna, celda)
-    ## ==> END ##
 
     ########################################################################
     ## START ==> APP EVENTS
