@@ -5,6 +5,9 @@ from PyQt6.QtCore import (QCoreApplication, QPropertyAnimation, QDate, QDateTime
 from PyQt6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter, QPixmap, QRadialGradient)
 from PyQt6.QtWidgets import *
 
+
+import database
+
 # GUI FILE
 from app_modules import *
 
@@ -53,10 +56,23 @@ class MainWindow(QMainWindow):
         UIFunctions.addNewMenu(self, "Custom Widgets", "btn_widgets", "url(:/16x16/icons/16x16/cil-equalizer.png)", False)
         UIFunctions.addNewMenu(self, "Movies", "btn_movies", "url(:/16x16/icons/16x16/cil-movie.png)", False)
         
-        # --- LÍNEA NUEVA: CREA UNA PÁGINA COMPLETAMENTE EN BLANCO ---
+        # --- REEMPLAZA ESTE BLOQUE EN TU MAIN.PY ---
+        # 1. Creamos la página contenedora
         self.ui.page_movies = QWidget()
         self.ui.stackedWidget.addWidget(self.ui.page_movies)
+        
+        # 2. Creamos una tabla visual para las películas
+        self.tabla_visual_movies = QTableWidget()
+        self.tabla_visual_movies.setColumnCount(4)
+        self.tabla_visual_movies.setHorizontalHeaderLabels(["ID", "Título", "Género", "Año"])
+        self.tabla_visual_movies.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        
+        # 3. La metemos en un diseño para que ocupe todo el espacio oscuro
+        layout_movies = QVBoxLayout()
+        layout_movies.addWidget(self.tabla_visual_movies)
+        self.ui.page_movies.setLayout(layout_movies)
         ## ==> END ##
+
 
         # START MENU => SELECTION
         UIFunctions.selectStandardMenu(self, "btn_home")
@@ -114,11 +130,6 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
         ## ==> END ##
 
-        # --- LÍNEAS NUEVAS CORREGIDAS PARA LIMPIAR LA PÁGINA DE MOVIES ---
-        self.ui.tableWidget.hide()    # Oculta la tabla vacía del fondo (Este sí existe)  
-        self.ui.frame_3.hide()        # Oculta la caja de instalación de Blender
-        self.ui.tableWidget.hide()    # Oculta la tabla vacía del fondo
-
 
 
         ########################################################################
@@ -161,15 +172,29 @@ class MainWindow(QMainWindow):
             UIFunctions.labelPage(self, "Custom Widgets")
             btnWidget.setStyleSheet(UIFunctions.selectMenu(btnWidget.styleSheet()))
 
+        
         # PAGE MOVIES
         # PAGE MOVIES
         if btnWidget.objectName() == "btn_movies":
-        
             self.ui.stackedWidget.setCurrentWidget(self.ui.page_movies) 
             
             UIFunctions.resetStyle(self, "btn_movies")
             UIFunctions.labelPage(self, "Movies")
             btnWidget.setStyleSheet(UIFunctions.selectMenu(btnWidget.styleSheet()))
+            
+            # Traemos los datos frescos desde Postgres
+            peliculas_db = database.listar_peliculas()
+            print(f"\n[UI] Hiciste clic en Movies. Cargadas {len(peliculas_db)} películas desde Postgres!")
+            
+            # --- NUEVO: DIBUJAR LAS PELÍCULAS EN LA TABLA ---
+            self.tabla_visual_movies.setRowCount(0) # Limpiamos filas viejas
+            
+            for numero_fila, datos_pelicula in enumerate(peliculas_db):
+                self.tabla_visual_movies.insertRow(numero_fila)
+                for numero_columna, dato in enumerate(datos_pelicula):
+                    celda = QTableWidgetItem(str(dato))
+                    celda.setTextAlignment(Qt.AlignmentFlag.AlignCenter) # Centramos el texto
+                    self.tabla_visual_movies.setItem(numero_fila, numero_columna, celda)
     ## ==> END ##
 
     ########################################################################
