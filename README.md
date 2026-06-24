@@ -1,29 +1,29 @@
-# UIXCore - Desk Template - PyQt6(Migrado) (MODERN / FLAT GUI)
+# NetfloxPyDesk
 
-> **Warning**: use PyQt6 > PyQt6-6.8.1 PyQt6-Qt6-6.8.2 PyQt6-sip-13.10.0 (**pip install PyQt6**)!
+Proyecto integrador de desarrollo de software utilizando **Python 3**, **Qt Designer** y la librería gráfica **PyQt6**, basado en la estructura modular `uixcore`.
 
-![widgets_view](img/image-1.png)
+---
 
-![home_vie](img/image-2.png)
+## Sprint 1 y 2: Estructura Base y Ajustes Iniciales
 
-Proyecto creado utilizando Python, Qt Designer y PyQt6.
-Espero que sea de ayuda para todos los que están comenzando en el mundo de Python.
-Este proyecto funciona muy bien en Windows; sin embargo, en Linux y macOS hay algunos problemas con el tamaño de las fuentes y la barra de título personalizada no funciona correctamente.
+En estas primeras etapas se migró y depuró la estructura del template base para adaptarla a los requerimientos específicos de la aplicación:
 
-## REQUERIMENTS
+* **Personalización de la interfaz:** Se reconfiguró el título de la ventana principal a `"NetfloxPyDesk"` y se estableció un tamaño predeterminado de `1024x720` píxeles.
+* **Menú Dinámico:** Se incorporó con éxito la nueva sección de **"Movies" (Películas)** en la barra de navegación lateral, vinculada a un contenedor limpio y preparado para las futuras funcionalidades del sistema.
+* **Entorno Virtual:** Se configuró un entorno virtual limpio (`env`) resolviendo los conflictos de dependencias con `PyQt6`.
 
->
-> ```sh
-> python -m venv env
-> .\env\Scripts\Activate
-> pip install PyQt6
-> ```
->
+---
 
-## RUN FILE
+##  Requisitos e Instalación
 
-main.py
+Para ejecutar este proyecto de forma local, asegúrate de tener Python instalado y sigue estos pasos en tu terminal de PowerShell:
 
-## ADD MENUS
+```sh
+# 1. Clonar el repositorio o ingresar a la carpeta del proyecto
+cd netfloxpydesk
 
-![add-MENUS](img/image-3.png)
+# 2. Activar el entorno virtual local
+.\env\Scripts\Activate.ps1
+
+# 3. Instalar la librería gráfica requerida
+python -m pip install PyQt6
